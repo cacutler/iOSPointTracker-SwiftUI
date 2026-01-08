@@ -85,10 +85,8 @@ struct GameView: View {
                         }
                     }
                 }
-            }.sheet(isPresented: $showingScoreSheet) {
-                if let player = selectedPlayer {
-                    ScoreEntryView(player: player, currentRound: game.currentRound)
-                }
+            }.sheet(item: $selectedPlayer) {player in
+                ScoreEntryView(player: player, currentRound: game.currentRound).modelContainer(for: [Player.self, ScoreEntry.self])
             }.sheet(isPresented: $showingRoundHistory) {
                 RoundHistoryView(game: game)
             }.alert("Start Next Round?", isPresented: $showingNextRoundConfirmation) {

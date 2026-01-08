@@ -4,7 +4,7 @@
 import SwiftUI
 import SwiftData
 @Model
-final class Player {
+final class Player: Identifiable {
     var id: UUID
     var name: String
     var score: Int

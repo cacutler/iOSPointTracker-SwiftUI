@@ -5,7 +5,7 @@ import SwiftData
 import SwiftUI
 struct ScoreEntryView: View {
     @Environment(\.dismiss) private var dismiss
-    @Bindable var player: Player
+    let player: Player
     let currentRound: Int
     @State private var points = ""
     @State private var isNegative = false
@@ -58,7 +58,7 @@ struct ScoreEntryView: View {
             }.onAppear {
                 isFocused = true
             }
-        }
+        }.presentationDragIndicator(.visible)
     }
     private func addQuickPoints(_ value: Int) {
         player.addPoints(value, round: currentRound)
