@@ -13,7 +13,7 @@ struct GameView: View {
     @State private var showingAddPlayer = false
     @State private var newPlayerName = ""
     var sortedPlayers: [Player] {
-        game.players.sorted { $0.score > $1.score }
+        game.players.sorted {$0.score > $1.score}
     }
     var body: some View {
         List {
@@ -36,7 +36,7 @@ struct GameView: View {
                 }
             }
             Section {
-                ForEach(sortedPlayers) { player in
+                ForEach(sortedPlayers) {player in
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(player.name).font(.headline)
@@ -123,7 +123,7 @@ struct GameView: View {
         } message: {
             Text("Round \(game.currentRound) will be complete and Round \(game.currentRound + 1) will begin.")
         }.alert("Reset Game?", isPresented: $showingResetConfirmation) {
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
             Button("Reset", role: .destructive) {
                 resetGame()
             }
@@ -138,13 +138,11 @@ struct GameView: View {
         game.players.append(newPlayer)
         newPlayerName = ""
     }
-    private func resetGame() {
-        // Remove all score entries from all players
+    private func resetGame() {// Remove all score entries from all players
         for player in game.players {
             player.scoreHistory.removeAll()
         }
-        // Reset game to round 1 and make it active
-        game.currentRound = 1
+        game.currentRound = 1// Reset game to round 1 and make it active
         game.isActive = true
     }
 }
