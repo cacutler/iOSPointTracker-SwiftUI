@@ -116,7 +116,7 @@ struct GameView: View {
         } message: {
             Text("Enter the name of the new player to add to this game.")
         }.alert("Start Next Round?", isPresented: $showingNextRoundConfirmation) {
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
             Button("Next Round") {
                 game.nextRound()
             }
