@@ -5,99 +5,148 @@ import SwiftUI
 import SwiftData
 struct GameView: View {
     @Bindable var game: Game
-        @State private var showingScoreSheet = false
-        @State private var selectedPlayer: Player?
-        @State private var showingRoundHistory = false
-        @State private var showingNextRoundConfirmation = false
-        var sortedPlayers: [Player] {
-            game.players.sorted { $0.score > $1.score }
-        }
-        var body: some View {
-            List {
-                Section {
+    @State private var showingScoreSheet = false
+    @State private var selectedPlayer: Player?
+    @State private var showingRoundHistory = false
+    @State private var showingNextRoundConfirmation = false
+    @State private var showingResetConfirmation = false
+    @State private var showingAddPlayer = false
+    @State private var newPlayerName = ""
+    var sortedPlayers: [Player] {
+        game.players.sorted { $0.score > $1.score }
+    }
+    var body: some View {
+        List {
+            Section {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Round \(game.currentRound)").font(.headline)
+                        if game.isActive {
+                            Text("Tap players to add scores").font(.caption).foregroundStyle(.secondary)
+                        }
+                    }
+                    Spacer()
+                    if game.isActive {
+                        Button {
+                            showingNextRoundConfirmation = true
+                        } label: {
+                            Label("Next Round", systemImage: "arrow.right.circle.fill").font(.subheadline)
+                        }.buttonStyle(.bordered)
+                    }
+                }
+            }
+            Section {
+                ForEach(sortedPlayers) { player in
                     HStack {
-                        VStack(alignment: .leading) {
-                            Text("Round \(game.currentRound)")
-                                .font(.headline)
-                            if game.isActive {
-                                Text("Tap players to add scores").font(.caption).foregroundStyle(.secondary)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(player.name).font(.headline)
+                            HStack(spacing: 4) {
+                                if player == game.winner && !game.isActive {
+                                    Text("Winner!").font(.caption).foregroundStyle(.green)
+                                }
+                                if game.isActive {
+                                    let roundTotal = player.totalForRound(game.currentRound)
+                                    if roundTotal != 0 {
+                                        Text("This round: \(roundTotal > 0 ? "+" : "")\(roundTotal)").font(.caption).foregroundStyle(roundTotal > 0 ? .blue : .red)
+                                    }
+                                }
                             }
                         }
                         Spacer()
+                        Text("\(player.score)").font(.title2).fontWeight(.semibold).foregroundStyle(player.score < 0 ? .red : .blue)
                         if game.isActive {
                             Button {
-                                showingNextRoundConfirmation = true
-                            } label: {
-                                Label("Next Round", systemImage: "arrow.right.circle.fill").font(.subheadline)
-                            }.buttonStyle(.bordered)
-                        }
-                    }
-                }
-                Section {
-                    ForEach(sortedPlayers) {player in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(player.name).font(.headline)
-                                HStack(spacing: 4) {
-                                    if player == game.winner && !game.isActive {
-                                        Text("Winner!").font(.caption).foregroundStyle(.green)
-                                    }
-                                    if game.isActive {
-                                        let roundTotal = player.totalForRound(game.currentRound)
-                                        if roundTotal != 0 {
-                                            Text("This round: \(roundTotal > 0 ? "+" : "")\(roundTotal)").font(.caption).foregroundStyle(roundTotal > 0 ? .blue : .red)
-                                        }
-                                    }
-                                }
-                            }
-                            Spacer()
-                            Text("\(player.score)").font(.title2).fontWeight(.semibold).foregroundStyle(player.score < 0 ? .red : .blue)
-                            if game.isActive {
-                                Button {
-                                    selectedPlayer = player
-                                    showingScoreSheet = true
-                                } label: {
-                                    Image(systemName: "plus.circle.fill").font(.title3)
-                                }
-                            }
-                        }.contentShape(Rectangle()).onTapGesture {
-                            if game.isActive {
                                 selectedPlayer = player
                                 showingScoreSheet = true
+                            } label: {
+                                Image(systemName: "plus.circle.fill").font(.title3)
                             }
                         }
-                    }
-                } header: {
-                    Text("Scores")
-                }
-            }.navigationTitle(game.name).navigationBarTitleDisplayMode(.inline).toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showingRoundHistory = true
-                    } label: {
-                        Label("History", systemImage: "clock")
+                    }.contentShape(Rectangle()).onTapGesture {
+                        if game.isActive {
+                            selectedPlayer = player
+                            showingScoreSheet = true
+                        }
                     }
                 }
-                if game.isActive {
-                    ToolbarItem(placement: .secondaryAction) {
+            } header: {
+                Text("Scores")
+            }
+        }.navigationTitle(game.name).navigationBarTitleDisplayMode(.inline).toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showingRoundHistory = true
+                } label: {
+                    Label("History", systemImage: "clock")
+                }
+            }
+            ToolbarItem(placement: .secondaryAction) {
+                Menu {
+                    if game.isActive {
+                        Button {
+                            showingAddPlayer = true
+                        } label: {
+                            Label("Add Player", systemImage: "person.badge.plus")
+                        }
                         Button("End Game") {
                             game.isActive = false
                         }
                     }
+                    Button(role: .destructive) {
+                        showingResetConfirmation = true
+                    } label: {
+                        Label("Reset Game", systemImage: "arrow.counterclockwise")
+                    }
+                } label: {
+                    Label("More", systemImage: "ellipsis.circle")
                 }
-            }.sheet(item: $selectedPlayer) {player in
-                ScoreEntryView(player: player, currentRound: game.currentRound).modelContainer(for: [Player.self, ScoreEntry.self])
-            }.sheet(isPresented: $showingRoundHistory) {
-                RoundHistoryView(game: game)
-            }.alert("Start Next Round?", isPresented: $showingNextRoundConfirmation) {
-                Button("Cancel", role: .cancel) { }
-                Button("Next Round") {
-                    game.nextRound()
-                }
-            } message: {
-                Text("Round \(game.currentRound) will be complete and Round \(game.currentRound + 1) will begin.")
             }
+        }.sheet(item: $selectedPlayer) {player in
+            ScoreEntryView(player: player, currentRound: game.currentRound).modelContainer(for: [Player.self, ScoreEntry.self])
+        }.sheet(isPresented: $showingRoundHistory) {
+            RoundHistoryView(game: game)
+        }.alert("Add New Player", isPresented: $showingAddPlayer) {
+            TextField("Player Name", text: $newPlayerName)
+            Button("Cancel", role: .cancel) {
+                newPlayerName = ""
+            }
+            Button("Add") {
+                addNewPlayer()
+            }.disabled(newPlayerName.trimmingCharacters(in: .whitespaces).isEmpty)
+        } message: {
+            Text("Enter the name of the new player to add to this game.")
+        }.alert("Start Next Round?", isPresented: $showingNextRoundConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Next Round") {
+                game.nextRound()
+            }
+        } message: {
+            Text("Round \(game.currentRound) will be complete and Round \(game.currentRound + 1) will begin.")
+        }.alert("Reset Game?", isPresented: $showingResetConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Reset", role: .destructive) {
+                resetGame()
+            }
+        } message: {
+            Text("This will delete all scores and reset the game to Round 1. This action cannot be undone.")
         }
+    }
+    private func addNewPlayer() {
+        let trimmedName = newPlayerName.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty else { return }
+        let newPlayer = Player(name: trimmedName)
+        game.players.append(newPlayer)
+        newPlayerName = ""
+    }
+    private func resetGame() {
+        // Remove all score entries from all players
+        for player in game.players {
+            player.scoreHistory.removeAll()
+        }
+        // Reset game to round 1 and make it active
+        game.currentRound = 1
+        game.isActive = true
+    }
 }
 #Preview("Game View") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
