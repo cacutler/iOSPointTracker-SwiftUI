@@ -4,6 +4,7 @@
 import SwiftUI
 import SwiftData
 struct GameView: View {
+    @Environment(\.modelContext) private var modelContext
     @Bindable var game: Game
     @State private var showingScoreSheet = false
     @State private var selectedPlayer: Player?
@@ -12,6 +13,8 @@ struct GameView: View {
     @State private var showingResetConfirmation = false
     @State private var showingAddPlayer = false
     @State private var newPlayerName = ""
+    @State private var playerToDelete: Player?
+    @State private var showingDeleteConfirmation = false
     var sortedPlayers: [Player] {
         game.players.sorted {$0.score > $1.score}
     }
@@ -67,10 +70,23 @@ struct GameView: View {
                             selectedPlayer = player
                             showingScoreSheet = true
                         }
+                    }.swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        if game.isActive && game.players.count > 2 {
+                            Button(role: .destructive) {
+                                playerToDelete = player
+                                showingDeleteConfirmation = true
+                            } label: {
+                                Label("Remove", systemImage: "person.fill.xmark")
+                            }
+                        }
                     }
                 }
             } header: {
                 Text("Scores")
+            } footer: {
+                if game.isActive && game.players.count > 2 {
+                    Text("Swipe left on a player to remove them from the game").font(.caption).foregroundStyle(.secondary)
+                }
             }
         }.navigationTitle(game.name).navigationBarTitleDisplayMode(.inline).toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -129,18 +145,42 @@ struct GameView: View {
             }
         } message: {
             Text("This will delete all scores and reset the game to Round 1. This action cannot be undone.")
+        }.alert("Remove Player?", isPresented: $showingDeleteConfirmation) {
+            Button("Cancel", role: .cancel) {
+                playerToDelete = nil
+            }
+            Button("Remove", role: .destructive) {
+                if let player = playerToDelete {
+                    removePlayer(player)
+                }
+            }
+        } message: {
+            if let player = playerToDelete {
+                Text("Remove \(player.name) from this game?  Their score history will be permanently deleted.")
+            }
         }
     }
     private func addNewPlayer() {
         let trimmedName = newPlayerName.trimmingCharacters(in: .whitespaces)
-        guard !trimmedName.isEmpty else { return }
+        guard !trimmedName.isEmpty else {return}
         let newPlayer = Player(name: trimmedName)
         game.players.append(newPlayer)
         newPlayerName = ""
     }
+    private func removePlayer(_ player: Player) {// Remove from game's players array
+        if let index = game.players.firstIndex(of: player) {
+            game.players.remove(at: index)
+        }
+        modelContext.delete(player)// Delete the player entity from the database
+        playerToDelete = nil
+    }
     private func resetGame() {// Remove all score entries from all players
         for player in game.players {
+            for entry in player.scoreHistory {// Delete all score entries from the database
+                modelContext.delete(entry)
+            }
             player.scoreHistory.removeAll()
+            player.score = 0// Reset the player's score to 0
         }
         game.currentRound = 1// Reset game to round 1 and make it active
         game.isActive = true
