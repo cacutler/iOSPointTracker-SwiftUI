@@ -15,13 +15,15 @@ struct ScoreEntryView: View {
             VStack(spacing: 20) {
                 Text(player.name).font(.headline)
                 Text("Round \(currentRound)").font(.subheadline).foregroundStyle(.secondary)
-                HStack {
-                    Button {
-                        isNegative.toggle()
-                    } label: {
-                        Image(systemName: isNegative ? "minus.circle.fill" : "plus.circle.fill").font(.title).foregroundStyle(isNegative ? .red : .blue)
+                VStack(spacing: 12) {// Points input section with clearer toggle
+                    Picker("Point Type", selection: $isNegative) {// between positive and negative
+                        Text("Add Points").tag(false)
+                        Text("Subtract Points").tag(true)
+                    }.pickerStyle(.segmented).padding(.horizontal)
+                    HStack {
+                        Text(isNegative ? "-" : "+").font(.system(size: 48, weight: .bold)).foregroundStyle(isNegative ? .red : .blue).frame(width: 40)
+                        TextField("Points", text: $points).textFieldStyle(.roundedBorder).keyboardType(.numberPad).font(.system(size: 48, weight: .bold)).multilineTextAlignment(.center).focused($isFocused)
                     }
-                    TextField("Points", text: $points).textFieldStyle(.roundedBorder).keyboardType(.numberPad).font(.system(size: 48, weight: .bold)).multilineTextAlignment(.center).focused($isFocused)
                 }.padding(.horizontal)
                 VStack(spacing: 12) {
                     Text("Quick Add").font(.caption).foregroundStyle(.secondary)
@@ -52,8 +54,17 @@ struct ScoreEntryView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
+                        isFocused = false// Dismiss keyboard first
                         addPoints()
                     }.disabled(points.isEmpty)
+                }
+                ToolbarItem(placement: .keyboard) {
+                    HStack {
+                        Spacer()
+                        Button("Done") {
+                            isFocused = false
+                        }
+                    }
                 }
             }.onAppear {
                 isFocused = true
