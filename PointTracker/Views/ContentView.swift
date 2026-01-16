@@ -5,9 +5,9 @@ import SwiftUI
 import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(filter: #Predicate<Game> { $0.isActive }, sort: \Game.date, order: .reverse)
+    @Query(filter: #Predicate<Game> {$0.isActive}, sort: \Game.date, order: .reverse)
     private var activeGames: [Game]
-    @Query(filter: #Predicate<Game> { !$0.isActive }, sort: \Game.date, order: .reverse)
+    @Query(filter: #Predicate<Game> {!$0.isActive}, sort: \Game.date, order: .reverse)
     private var completedGames: [Game]
     @State private var showingNewGame = false
     var body: some View {
@@ -15,7 +15,7 @@ struct ContentView: View {
             List {
                 if !activeGames.isEmpty {
                     Section("Active Games") {
-                        ForEach(activeGames) { game in
+                        ForEach(activeGames) {game in
                             NavigationLink(destination: GameView(game: game)) {
                                 GameRowView(game: game)
                             }
@@ -24,7 +24,7 @@ struct ContentView: View {
                 }
                 if !completedGames.isEmpty {
                     Section("Completed Games") {
-                        ForEach(completedGames) { game in
+                        ForEach(completedGames) {game in
                             NavigationLink(destination: GameView(game: game)) {
                                 GameRowView(game: game)
                             }
