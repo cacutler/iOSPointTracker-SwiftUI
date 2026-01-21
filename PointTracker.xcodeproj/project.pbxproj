@@ -6,8 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		48EBE9282F213C0700BD68B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48AAE8AA2F0B674800960A09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48AAE8B12F0B674800960A09;
+			remoteInfo = PointTracker;
+		};
+		48EBE9372F213C2000BD68B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48AAE8AA2F0B674800960A09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48AAE8B12F0B674800960A09;
+			remoteInfo = PointTracker;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		48AAE8B22F0B674800960A09 /* PointTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PointTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48EBE9242F213C0700BD68B3 /* PointTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PointTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48EBE9312F213C2000BD68B3 /* PointTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PointTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +35,34 @@
 			path = PointTracker;
 			sourceTree = "<group>";
 		};
+		48EBE9252F213C0700BD68B3 /* PointTrackerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PointTrackerTests;
+			sourceTree = "<group>";
+		};
+		48EBE9322F213C2000BD68B3 /* PointTrackerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PointTrackerUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		48AAE8AF2F0B674800960A09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48EBE9212F213C0700BD68B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48EBE92E2F213C2000BD68B3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				48AAE8B42F0B674800960A09 /* PointTracker */,
+				48EBE9252F213C0700BD68B3 /* PointTrackerTests */,
+				48EBE9322F213C2000BD68B3 /* PointTrackerUITests */,
 				48AAE8B32F0B674800960A09 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				48AAE8B22F0B674800960A09 /* PointTracker.app */,
+				48EBE9242F213C0700BD68B3 /* PointTrackerTests.xctest */,
+				48EBE9312F213C2000BD68B3 /* PointTrackerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +117,52 @@
 			productReference = 48AAE8B22F0B674800960A09 /* PointTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		48EBE9232F213C0700BD68B3 /* PointTrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48EBE92C2F213C0700BD68B3 /* Build configuration list for PBXNativeTarget "PointTrackerTests" */;
+			buildPhases = (
+				48EBE9202F213C0700BD68B3 /* Sources */,
+				48EBE9212F213C0700BD68B3 /* Frameworks */,
+				48EBE9222F213C0700BD68B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48EBE9292F213C0700BD68B3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				48EBE9252F213C0700BD68B3 /* PointTrackerTests */,
+			);
+			name = PointTrackerTests;
+			packageProductDependencies = (
+			);
+			productName = PointTrackerTests;
+			productReference = 48EBE9242F213C0700BD68B3 /* PointTrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		48EBE9302F213C2000BD68B3 /* PointTrackerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48EBE9392F213C2000BD68B3 /* Build configuration list for PBXNativeTarget "PointTrackerUITests" */;
+			buildPhases = (
+				48EBE92D2F213C2000BD68B3 /* Sources */,
+				48EBE92E2F213C2000BD68B3 /* Frameworks */,
+				48EBE92F2F213C2000BD68B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48EBE9382F213C2000BD68B3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				48EBE9322F213C2000BD68B3 /* PointTrackerUITests */,
+			);
+			name = PointTrackerUITests;
+			packageProductDependencies = (
+			);
+			productName = PointTrackerUITests;
+			productReference = 48EBE9312F213C2000BD68B3 /* PointTrackerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +175,14 @@
 				TargetAttributes = {
 					48AAE8B12F0B674800960A09 = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					48EBE9232F213C0700BD68B3 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 48AAE8B12F0B674800960A09;
+					};
+					48EBE9302F213C2000BD68B3 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 48AAE8B12F0B674800960A09;
 					};
 				};
 			};
@@ -100,12 +201,28 @@
 			projectRoot = "";
 			targets = (
 				48AAE8B12F0B674800960A09 /* PointTracker */,
+				48EBE9232F213C0700BD68B3 /* PointTrackerTests */,
+				48EBE9302F213C2000BD68B3 /* PointTrackerUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		48AAE8B02F0B674800960A09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48EBE9222F213C0700BD68B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48EBE92F2F213C2000BD68B3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +239,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		48EBE9202F213C0700BD68B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48EBE92D2F213C2000BD68B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48EBE9292F213C0700BD68B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48AAE8B12F0B674800960A09 /* PointTracker */;
+			targetProxy = 48EBE9282F213C0700BD68B3 /* PBXContainerItemProxy */;
+		};
+		48EBE9382F213C2000BD68B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48AAE8B12F0B674800960A09 /* PointTracker */;
+			targetProxy = 48EBE9372F213C2000BD68B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		48AAE8BD2F0B674900960A09 /* Debug */ = {
@@ -316,6 +460,88 @@
 			};
 			name = Release;
 		};
+		48EBE92A2F213C0700BD68B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3QMPV3J7DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cacutler.PointTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PointTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PointTracker";
+			};
+			name = Debug;
+		};
+		48EBE92B2F213C0700BD68B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3QMPV3J7DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cacutler.PointTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PointTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PointTracker";
+			};
+			name = Release;
+		};
+		48EBE93A2F213C2000BD68B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3QMPV3J7DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cacutler.PointTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PointTracker;
+			};
+			name = Debug;
+		};
+		48EBE93B2F213C2000BD68B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3QMPV3J7DC;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cacutler.PointTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PointTracker;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -333,6 +559,24 @@
 			buildConfigurations = (
 				48AAE8C02F0B674900960A09 /* Debug */,
 				48AAE8C12F0B674900960A09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48EBE92C2F213C0700BD68B3 /* Build configuration list for PBXNativeTarget "PointTrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48EBE92A2F213C0700BD68B3 /* Debug */,
+				48EBE92B2F213C0700BD68B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48EBE9392F213C2000BD68B3 /* Build configuration list for PBXNativeTarget "PointTrackerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48EBE93A2F213C2000BD68B3 /* Debug */,
+				48EBE93B2F213C2000BD68B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
