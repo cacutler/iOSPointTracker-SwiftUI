@@ -2,7 +2,7 @@
 //  PointTrackerUITests
 //  Created by Cameron Alexander Cutler on 1/21/26.
 import XCTest
-final class PointTrackerUITestsLaunchTests: XCTestCase {
+final class PointTrackerUITestsLaunchTests: XCTestCase {// MARK: - Launch Tests
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
@@ -13,11 +13,16 @@ final class PointTrackerUITestsLaunchTests: XCTestCase {
     func testLaunch() throws {
         let app = XCUIApplication()
         app.launch()
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
+        XCTAssertTrue(app.navigationBars["Card Games"].exists)// Verify app launched successfully
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Launch Screen"
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+    @MainActor
+    func testLaunchPerformance() throws {
+        measure(metrics: [XCTApplicationLaunchMetric()]) {
+            XCUIApplication().launch()
+        }
     }
 }

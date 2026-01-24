@@ -103,16 +103,16 @@ struct GameView: View {
                             showingAddPlayer = true
                         } label: {
                             Label("Add Player", systemImage: "person.badge.plus")
-                        }
+                        }.accessibilityIdentifier("addPlayerMenuItem")
                         Button("End Game") {
                             game.isActive = false
-                        }
+                        }.accessibilityIdentifier("endGameMenuItem")
                     }
                     Button(role: .destructive) {
                         showingResetConfirmation = true
                     } label: {
                         Label("Reset Game", systemImage: "arrow.counterclockwise")
-                    }
+                    }.accessibilityIdentifier("resetGameMenuItem")
                 } label: {
                     Label("More", systemImage: "ellipsis.circle")
                 }
