@@ -16,7 +16,12 @@ struct GameView: View {
     @State private var playerToDelete: Player?
     @State private var showingDeleteConfirmation = false
     var sortedPlayers: [Player] {
-        game.players.sorted {$0.score > $1.score}
+        switch game.winCondition {
+            case .highScore:
+                return game.players.sorted {$0.score > $1.score}
+            case .lowScore:
+                return game.players.sorted {$0.score < $1.score}
+        }
     }
     var body: some View {
         List {
@@ -27,6 +32,7 @@ struct GameView: View {
                         if game.isActive {
                             Text("Tap players to add scores").font(.caption).foregroundStyle(.secondary)
                         }
+                        Text(game.winCondition == .highScore ? "Highest score wins" : "Lowest score wins").font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
                     if game.isActive {

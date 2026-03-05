@@ -3,6 +3,10 @@
 //  Created by Cameron Alexander Cutler on 1/4/26.
 import SwiftUI
 import SwiftData
+enum WinCondition: String, Codable {
+    case highScore = "highScore"
+    case lowScore = "lowScore"
+}
 @Model
 final class Game {
     var id: UUID
@@ -12,7 +16,16 @@ final class Game {
     var isActive: Bool
     var currentRound: Int
     var rounds: [Round]
-    init(name: String, playerNames: [String]) {
+    var winConditionRaw: String = WinCondition.highScore.rawValue
+    var winCondition: WinCondition {
+        get {
+            WinCondition(rawValue: winConditionRaw) ?? .highScore
+        }
+        set {
+            winConditionRaw = newValue.rawValue
+        }
+    }
+    init(name: String, playerNames: [String], winCondition: WinCondition = .highScore) {
         self.id = UUID()
         self.name = name
         self.date = Date()
@@ -20,9 +33,15 @@ final class Game {
         self.isActive = true
         self.currentRound = 1
         self.rounds = []
+        self.winConditionRaw = winCondition.rawValue
     }
     var winner: Player? {
-        players.max(by: {$0.score < $1.score})
+        switch winCondition {
+        case .highScore:
+            return players.max(by: {$0.score < $1.score})
+        case .lowScore:
+            return players.min(by: {$0.score < $1.score})
+        }
     }
     func nextRound() {
         currentRound += 1

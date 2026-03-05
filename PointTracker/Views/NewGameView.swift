@@ -8,12 +8,19 @@ struct NewGameView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var gameName = ""
     @State private var playerNames: [String] = ["", ""]
+    @State private var winCondition: WinCondition = .highScore
     @FocusState private var focusedField: Int?
     var body: some View {
         NavigationStack {
             Form {
                 Section("Game Details") {
                     TextField("Game Name", text: $gameName)
+                }
+                Section("Win Condition") {
+                    Picker("Winner is determined by", selection: $winCondition) {
+                        Text("Highest Score").tag(WinCondition.highScore)
+                        Text("Lowest Score").tag(WinCondition.lowScore)
+                    }
                 }
                 Section("Players") {
                     ForEach(playerNames.indices, id: \.self) {index in
@@ -54,7 +61,7 @@ struct NewGameView: View {
     }
     private func createGame() {
         let validNames = playerNames.map {$0.trimmingCharacters(in: .whitespaces)}.filter {!$0.isEmpty}
-        let game = Game(name: gameName, playerNames: validNames)
+        let game = Game(name: gameName, playerNames: validNames, winCondition: winCondition)
         modelContext.insert(game)
         dismiss()
     }
