@@ -196,4 +196,22 @@ final class PointTrackerUITests: XCTestCase {
         app.textFields["Player 2"].typeText("Bob")
         app.navigationBars["New Game"].buttons["Start"].tap()
     }
+    private func createLowScoreGame() {
+        app.navigationBars["Card Games"].buttons["New Game"].tap()
+        app.textFields["Game Name"].tap()
+        app.textFields["Game Name"].typeText("Golf Game")
+        app.textFields["Player 1"].tap()
+        app.textFields["Player 1"].typeText("Alice")
+        app.textFields["Player 2"].tap()
+        app.textFields["Player 2"].typeText("Bob")
+        app.staticTexts["Highest Score"].tap()
+        app.buttons["Lowest Score"].firstMatch.tap()
+        app.navigationBars["New Game"].buttons["Start"].tap()
+    }
+    @MainActor
+    func testLowScoreWinConditionDisplay() throws {
+        createLowScoreGame()
+        app.staticTexts["Golf Game"].tap()
+        XCTAssertTrue(app.staticTexts["Lowest score wins"].exists)
+    }
 }

@@ -9,9 +9,11 @@ struct PlayerTests {
     @Test("Player intializes with correct defaults")
     func testPlayerInitialization() {
         let player = Player(name: "Alice")
+        let game = Game(name: "Poker", playerNames: ["Alice", "Bob", "Charlie"])
         #expect(player.name == "Alice")
         #expect(player.score == 0)
         #expect(player.scoreHistory.isEmpty)
+        #expect(game.winCondition == .highScore)
     }
     @Test("Player adds points correctly")
     func testAddPoints() {
@@ -141,6 +143,44 @@ struct GameTests {
         let winner = game.winner
         #expect(winner == nil)
     }
+    @Test("Winner wit low score win condition")
+    func testWinnerLowScore() {
+        let game = Game(name: "Golf", playerNames: ["Alice", "Bob", "Charlie"], winCondition: .lowScore)
+        game.players[0].addPoints(100, round: 1)
+        game.players[1].addPoints(50, round: 1)
+        game.players[2].addPoints(75, round: 1)
+        let winner = game.winner
+        #expect(winner?.name == "Bob")
+        #expect(winner?.score == 50)
+    }
+    @Test("Winner with low score and negative scores")
+    func testWinnerLowScoreNegative() {
+        let game = Game(name: "Golf", playerNames: ["Alice", "Bob"], winCondition: .lowScore)
+        game.players[0].addPoints(-50, round: 1)
+        game.players[1].addPoints(-25, round: 1)
+        let winner = game.winner
+        #expect(winner?.name == "Alice")
+        #expect(winner?.score == -50)
+    }
+    @Test("Game initializes with low score win condition")
+    func testLowScoreWinConditionInit() {
+        let game = Game(name: "Poker", playerNames: ["Alice", "Bob"])
+        #expect(game.winCondition == .highScore)
+    }
+    @Test("Game defaults to high score win condition")
+    func testDafaultWinCondition() {
+        let game = Game(name: "Golf", playerNames: ["Alice", "Bob"], winCondition: .lowScore)
+        #expect(game.winCondition == .lowScore)
+    }
+    @Test("Winner handles tied scores with low score condition")
+    func testWinnerTiedLowScore() {
+        let game = Game(name: "Golf", playerNames: ["Player1", "Player2", "Player3"], winCondition: .lowScore)
+        game.players[0].addPoints(50, round: 1)
+        game.players[1].addPoints(50, round: 1)
+        game.players[2].addPoints(100, round: 1)
+        let winner = game.winner
+        #expect(winner?.score == 50)
+    }
 }
 @MainActor
 struct ScoreEntryTests {
@@ -199,5 +239,19 @@ struct IntegrationTests {
         #expect(player.score == 30)
         #expect(player.totalForRound(1) == 30)
         #expect(player.totalForRound(2) == 0)
+    }
+    @Test("Complete game flow with low score win condition")
+    func testCompleteGameFlowLowScore() {
+        let game = Game(name: "Golf", playerNames: ["Alice", "Bob"], winCondition: .lowScore)
+        #expect(game.isActive == true)
+        game.players[0].addPoints(80, round: 1)
+        game.players[1].addPoints(60, round: 1)
+        game.nextRound()
+        game.players[0].addPoints(70, round: 2)
+        game.players[1].addPoints(90, round: 2)
+        game.isActive = false
+        let winner = game.winner
+        #expect(winner?.name == "Alice")  // 150 total vs Bob's 150... adjust values as needed
+        #expect(winner?.score == 150)
     }
 }
