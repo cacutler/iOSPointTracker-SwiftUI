@@ -62,6 +62,29 @@ struct GameView: View {
                             }
                         }
                         Spacer()
+                        if game.tracksTricks {
+                            VStack(spacing: 2) {
+                                Text("\(player.currentTricks)").font(.title2).fontWeight(.semibold).foregroundStyle(.purple)
+                                Text("tricks").font(.caption2).foregroundStyle(.secondary)
+                            }.frame(minWidth: 44)
+                        }
+                        if game.tracksTricks && game.isActive {
+                            VStack(spacing: 2) {
+                                Button {
+                                    player.currentTricks += 1
+                                } label: {
+                                    Image(systemName: "plus.circle").font(.caption)
+                                }.buttonStyle(.plain)
+                                Button {
+                                    if player.currentTricks > 0 {
+                                        player.currentTricks -= 1
+                                    }
+                                } label: {
+                                    Image(systemName: "minus.circle").font(.caption)
+                                }.buttonStyle(.plain)
+                            }.foregroundStyle(.purple)
+                        }
+                        Spacer()
                         Text("\(player.score)").font(.title2).fontWeight(.semibold).foregroundStyle(player.score < 0 ? .red : .blue)
                         if game.isActive {
                             Button {
@@ -140,7 +163,7 @@ struct GameView: View {
         }.alert("Start Next Round?", isPresented: $showingNextRoundConfirmation) {
             Button("Cancel", role: .cancel) {}
             Button("Next Round") {
-                game.nextRound()
+                nextRound()
             }
         } message: {
             Text("Round \(game.currentRound) will be complete and Round \(game.currentRound + 1) will begin.")
@@ -190,6 +213,12 @@ struct GameView: View {
         }
         game.currentRound = 1// Reset game to round 1 and make it active
         game.isActive = true
+    }
+    private func nextRound() {
+        for player in game.players {
+            player.resetTricks()
+        }
+        game.currentRound += 1
     }
 }
 #Preview("Game View") {

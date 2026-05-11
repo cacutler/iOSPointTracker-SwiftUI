@@ -25,6 +25,7 @@ final class Game {
             winConditionRaw = newValue.rawValue
         }
     }
+    var tracksTricks: Bool
     init(name: String, playerNames: [String], winCondition: WinCondition = .highScore) {
         self.id = UUID()
         self.name = name
@@ -34,6 +35,7 @@ final class Game {
         self.currentRound = 1
         self.rounds = []
         self.winConditionRaw = winCondition.rawValue
+        self.tracksTricks = false
     }
     var winner: Player? {
         switch winCondition {
@@ -42,8 +44,5 @@ final class Game {
         case .lowScore:
             return players.min(by: {$0.score < $1.score})
         }
-    }
-    func nextRound() {
-        currentRound += 1
     }
 }

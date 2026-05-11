@@ -9,18 +9,22 @@ final class Player: Identifiable {
     var name: String
     var score: Int
     var scoreHistory: [ScoreEntry]
+    var currentTricks: Int
     init(name: String) {
         self.id = UUID()
         self.name = name
         self.score = 0
         self.scoreHistory = []
+        self.currentTricks = 0
     }
     func addPoints(_ points: Int, round: Int) {
         score += points
         scoreHistory.append(ScoreEntry(points: points, round: round))
     }
     func undoLastScore() {
-        guard let lastScore = scoreHistory.popLast() else {return}
+        guard let lastScore = scoreHistory.popLast() else {
+            return
+        }
         score -= lastScore.points
     }
     func scoresForRound(_ round: Int) -> [Int] {
@@ -28,5 +32,8 @@ final class Player: Identifiable {
     }
     func totalForRound(_ round: Int) -> Int {
         scoresForRound(round).reduce(0, +)
+    }
+    func resetTricks() {
+        currentTricks = 0
     }
 }

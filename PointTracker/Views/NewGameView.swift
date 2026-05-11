@@ -10,6 +10,7 @@ struct NewGameView: View {
     @State private var playerNames: [String] = ["", ""]
     @State private var winCondition: WinCondition = .highScore
     @FocusState private var focusedField: Int?
+    @State private var tracksTricks = false
     var body: some View {
         NavigationStack {
             Form {
@@ -22,6 +23,7 @@ struct NewGameView: View {
                         Text("Lowest Score").tag(WinCondition.lowScore)
                     }
                 }
+                Toggle("Track Tricks / Hands", isOn: $tracksTricks)
                 Section("Players") {
                     ForEach(playerNames.indices, id: \.self) {index in
                         HStack {
@@ -62,6 +64,7 @@ struct NewGameView: View {
     private func createGame() {
         let validNames = playerNames.map {$0.trimmingCharacters(in: .whitespaces)}.filter {!$0.isEmpty}
         let game = Game(name: gameName, playerNames: validNames, winCondition: winCondition)
+        game.tracksTricks = tracksTricks
         modelContext.insert(game)
         dismiss()
     }
