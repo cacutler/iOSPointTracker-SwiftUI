@@ -62,36 +62,41 @@ struct GameView: View {
                             }
                         }
                         Spacer()
-                        if game.tracksTricks {
-                            VStack(spacing: 2) {
-                                Text("\(player.currentTricks)").font(.title2).fontWeight(.semibold).foregroundStyle(.purple)
-                                Text("tricks").font(.caption2).foregroundStyle(.secondary)
-                            }.frame(minWidth: 44)
-                        }
-                        if game.tracksTricks && game.isActive {
-                            VStack(spacing: 2) {
-                                Button {
-                                    player.currentTricks += 1
-                                } label: {
-                                    Image(systemName: "plus.circle").font(.caption)
-                                }.buttonStyle(.plain)
-                                Button {
-                                    if player.currentTricks > 0 {
-                                        player.currentTricks -= 1
+                        VStack {
+                            HStack {
+                                if game.tracksTricks {
+                                    VStack {
+                                        Text("\(player.currentTricks)").font(.title2).fontWeight(.semibold).foregroundStyle(.purple)
+                                        Text("tricks").font(.caption2).foregroundStyle(.secondary)
                                     }
-                                } label: {
-                                    Image(systemName: "minus.circle").font(.caption)
-                                }.buttonStyle(.plain)
-                            }.foregroundStyle(.purple)
-                        }
-                        Spacer()
-                        Text("\(player.score)").font(.title2).fontWeight(.semibold).foregroundStyle(player.score < 0 ? .red : .blue)
-                        if game.isActive {
-                            Button {
-                                selectedPlayer = player
-                                showingScoreSheet = true
-                            } label: {
-                                Image(systemName: "plus.circle.fill").font(.title3)
+                                }
+                                if game.tracksTricks && game.isActive {
+                                    VStack(spacing: 4) {
+                                        Button {
+                                            player.currentTricks += 1
+                                        } label: {
+                                            Image(systemName: "plus.circle").font(.caption)
+                                        }.buttonStyle(.plain).simultaneousGesture(TapGesture())
+                                        Button {
+                                            if player.currentTricks > 0 {
+                                                player.currentTricks -= 1
+                                            }
+                                        } label: {
+                                            Image(systemName: "minus.circle").font(.caption)
+                                        }.buttonStyle(.plain).simultaneousGesture(TapGesture())
+                                    }.foregroundStyle(.purple)
+                                }
+                            }
+                            HStack {
+                                Text("\(player.score)").font(.title2).fontWeight(.semibold).foregroundStyle(player.score < 0 ? .red : .blue)
+                                if game.isActive {
+                                    Button {
+                                        selectedPlayer = player
+                                        showingScoreSheet = true
+                                    } label: {
+                                        Image(systemName: "plus.circle.fill").font(.title3)
+                                    }
+                                }
                             }
                         }
                     }.contentShape(Rectangle()).onTapGesture {
@@ -225,6 +230,7 @@ struct GameView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, Player.self, ScoreEntry.self, configurations: config)
     let game = Game(name: "Hearts", playerNames: ["Alice", "Bob", "Charlie", "Diana"])
+    game.tracksTricks = true
     game.players[0].addPoints(25, round: 1)
     game.players[0].addPoints(10, round: 1)
     game.players[1].addPoints(-15, round: 1)
