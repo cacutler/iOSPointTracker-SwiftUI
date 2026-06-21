@@ -45,4 +45,10 @@ final class Game {
             return players.min(by: {$0.score < $1.score})
         }
     }
+    func nextRound() {
+        for player in players {
+            player.resetTricks()
+        }
+        currentRound += 1
+    }
 }

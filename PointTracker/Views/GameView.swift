@@ -220,10 +220,7 @@ struct GameView: View {
         game.isActive = true
     }
     private func nextRound() {
-        for player in game.players {
-            player.resetTricks()
-        }
-        game.currentRound += 1
+        game.nextRound()
     }
 }
 #Preview("Game View") {
