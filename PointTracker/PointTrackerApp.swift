@@ -11,8 +11,7 @@ struct PointTrackerApp: App {
         do {
             return try ModelContainer(for: schema, configurations: config)
         } catch {
-            // If migration fails, delete and recreate the store
-            let config = ModelConfiguration(schema: schema)
+            let config = ModelConfiguration(schema: schema)// If migration fails, delete and recreate the store
             do {
                 return try ModelContainer(for: schema, configurations: config)
             } catch {
@@ -20,7 +19,6 @@ struct PointTrackerApp: App {
             }
         }
     }()
-
     var body: some Scene {
         WindowGroup {
             ContentView()
